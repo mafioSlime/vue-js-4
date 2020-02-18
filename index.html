@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue JS Exercise #4</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="vue(2).js"></script>
+</head>
+
+<body>
+  <div id="exercise">
+    <!-- 1) Start the Effect with the Button.
+       The Effect should alternate the "highlight"
+        or "shrink" class on each new
+         setInterval tick (attach respective class
+         to the div with id "effect" below) -->
+
+    <div>
+      <button @click="startEffect">Start Effect</button>
+      <div id="effect" :class="[changeStyle ? 'highlight': 'shrink']"></div>
+
+      <!-- 2) Create a couple of CSS classes and
+       attach them via the array syntax -->
+      <div :class="['align', 'royalBlue', 'biggerFont']">I got no class :(</div>
+    </div>
+    <!-- 3) Let the user enter a class
+       (create some example classes) and attach it -->
+    <div>
+      <input type="text" v-model="userClass">
+      <div v-bind:class="[{box3: true}, userClass]"></div>
+    </div>
+
+    <!-- 4) Let the user enter a class and enter
+       true/ false for another class (create some example classes)
+        and attach the classes -->
+
+    <div>
+      <input type="text" v-model="isVisible">
+      <input type="text" v-model="userClass">
+      <div v-bind:class="[{box3: isVisible}, userClass]"></div>
+    </div>
+
+    <!-- 5) Repeat 3) but now with values for styles
+       (instead of class names). Attach the respective styles.  -->
+    <div>
+      <input type="text" v-model="personalStyle.backgroundColor">
+      <div v-bind:style="personalStyle"></div>
+    </div>
+
+    <!-- 6) Create a simple progress bar with setInterval
+       and style bindings. Start it by hitting the below button. -->
+    <div>
+      <button @click="loadingBar">Start Progress</button>
+      <div v-bind:class="['progressBar']" v-bind:style="showProgress"></div>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: '#exercise',
+      data: {
+        changeStyle: false,
+        align: 'align',
+        backgroundColor: 'indigo',
+        border: '2px solid #000',
+        userClass: '',
+        isVisible: true,
+        personalStyle: {
+          width: '250px',
+          height: '250px',
+          margin: '5rem',
+          backgroundColor: 'indigo'
+        },
+        showProgress: {
+          width: 0,
+          backgroundColor: 'royalblue'
+        }
+
+      },
+      methods: {
+        startEffect: function () {
+          setInterval(function () {
+            this.changeStyle = !this.changeStyle
+          }.bind(this), 1000)
+        },
+        loadingBar: function () {
+          var vm = this;
+          var width = 0
+          setInterval(function () {
+            width = width + 10
+            vm.showProgress.width = width + 'px'
+          }, 500)
+        }
+      },
+      computed: {
+        freeStyle: function () {
+          return {
+            backgroundColor: this.backgroundColor,
+            border: this.border
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
